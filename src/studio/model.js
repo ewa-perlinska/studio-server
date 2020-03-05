@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require("../db");
+const User = require("../user/model");
 
 const Studio = db.define("studio", {
   studioName: { type: Sequelize.STRING, unique: true, allowNull: false },
@@ -30,5 +31,8 @@ const Studio = db.define("studio", {
   },
   featuredImage: { type: Sequelize.STRING, unique: true, allowNull: false }
 });
+
+Studio.belongsTo(User);
+User.hasMany(Studio);
 
 module.exports = Studio;
