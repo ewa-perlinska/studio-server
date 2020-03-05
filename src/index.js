@@ -19,7 +19,9 @@ app.get("/ping", (request, response) => {
 });
 
 const userRoutes = require("../src/user/router");
+const studioRoutes = require("../src/studio/router");
 
+app.use(studioRoutes);
 app.use(userRoutes);
 
 app.listen(port, () => {
