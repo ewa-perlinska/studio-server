@@ -6,7 +6,7 @@ const databaseUrl =
 
 const db = new Sequelize(databaseUrl);
 
-db.sync()
+db.sync({ force: false })
   .then(() => console.log("Database updated"))
   .catch(console.error);
 
