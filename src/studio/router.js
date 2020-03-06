@@ -27,9 +27,25 @@ router.get("/studio", async function(request, response, next) {
 router.post("/studio", auth, async (request, response) => {
   console.log("how my request looks?", request.user.dataValues.id);
   console.log("how my request looks?");
-  const newStudio = { ...request.body, userId: request.user.dataValues.id };
-  const studio = await Studio.create(newStudio);
+  request.body.studioDetails.userId = request.user.dataValues.id;
+  const newStudio = { ...request.body };
+  console.log("what is my new studio ", newStudio.studioDetails);
+
+  const studio = await Studio.create(newStudio.studioDetails);
   return response.status(201).send(studio);
+});
+
+router.patch("/studio/:id", async function(request, response, next) {
+  try {
+    const studio = await Studio.findByPk(request.params.id);
+    if (studio) {
+      return response.send(await studio.update(request.body));
+    } else {
+      return response.status(404).send("Page not Found");
+    }
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
