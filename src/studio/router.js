@@ -14,15 +14,15 @@ router.get("/studio", async function(request, response, next) {
   }
 });
 
-// router.get("/event/:id", async function(request, response, next) {
-//   try {
-//     const event = await Event.findByPk(request.params.id);
-//     response.send(event);
-//     console.log("done");
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+router.get("/studio/:id", async function(request, response, next) {
+  try {
+    const studio = await Studio.findByPk(request.params.id);
+    response.send(studio);
+    console.log("done");
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.post("/studio", auth, async (request, response) => {
   console.log("how my request looks?", request.user.dataValues.id);
@@ -43,6 +43,22 @@ router.patch("/studio/:id", async function(request, response, next) {
     } else {
       return response.status(404).send("Page not Found");
     }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/mystudio", auth, async function(request, response, next) {
+  console.log("my studdiiooooooo / user id ", request.user.dataValues.id);
+  const userId = request.user.dataValues.id;
+  try {
+    const studios = await Studio.findAll({
+      where: {
+        userId: userId
+      }
+    });
+    response.send(studios);
+    console.log("done");
   } catch (error) {
     next(error);
   }
