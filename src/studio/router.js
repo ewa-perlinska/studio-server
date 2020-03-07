@@ -64,4 +64,17 @@ router.get("/mystudio", auth, async function(request, response, next) {
   }
 });
 
+router.patch("/studio/:id", async function(request, response, next) {
+  try {
+    const studio = await Studio.findByPk(request.params.id);
+    if (studio) {
+      return response.send(await studio.update(request.body));
+    } else {
+      return response.status(404).send("Page not Found");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
