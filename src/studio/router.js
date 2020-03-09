@@ -35,19 +35,6 @@ router.post("/studio", auth, async (request, response) => {
   return response.status(201).send(studio);
 });
 
-router.patch("/studio/:id", async function(request, response, next) {
-  try {
-    const studio = await Studio.findByPk(request.params.id);
-    if (studio) {
-      return response.send(await studio.update(request.body));
-    } else {
-      return response.status(404).send("Page not Found");
-    }
-  } catch (error) {
-    next(error);
-  }
-});
-
 router.get("/mystudio", auth, async function(request, response, next) {
   console.log("my studdiiooooooo / user id ", request.user.dataValues.id);
   const userId = request.user.dataValues.id;
@@ -66,9 +53,13 @@ router.get("/mystudio", auth, async function(request, response, next) {
 
 router.patch("/studio/:id", async function(request, response, next) {
   try {
+    console.log("what is my request body ", request.body);
+
     const studio = await Studio.findByPk(request.params.id);
     if (studio) {
-      return response.send(await studio.update(request.body));
+      const updatedStudio = await studio.update(request.body.studioDetails);
+
+      return response.send(updatedStudio);
     } else {
       return response.status(404).send("Page not Found");
     }

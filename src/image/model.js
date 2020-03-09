@@ -6,6 +6,10 @@ const Image = db.define("image", {
   image: {
     type: Sequelize.STRING,
     allowNull: false
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
   }
 });
 
