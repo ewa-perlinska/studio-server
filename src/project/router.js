@@ -1,7 +1,8 @@
 const { Router } = require("express");
 const auth = require("../auth/middleWare");
 const Project = require("./model");
-
+const Studio = require("../studio/model");
+const Image = require("../image/model");
 const router = new Router();
 
 router.get("/project", async function(request, response, next) {
@@ -24,17 +25,64 @@ router.get("/project/:id", async function(request, response, next) {
   }
 });
 
-router.post("/project", auth, async (request, response) => {
-  console.log("how my request looks?", request.user.dataValues.id);
-  console.log("how my request looks?");
-  request.body.projectDetails.userId = request.user.dataValues.id;
-  const newProject = { ...request.body };
-  console.log("what is my new !!!!! project ", newProject.projectDetails);
+// router.post("/studio/:id/project", auth, async function(
+//   request,
+//   response,
+//   next
+// ) {
+//   try {
+//     console.log("how my request looks?", request.user.dataValues.id);
+//     console.log("WHAT IS STUDIO ID ", request.params.id);
 
-  const project = await Project.create(newProject.projectDetails);
-  // const projectImage= await
-  return response.status(201).send(project);
-});
+//     const studio = await Studio.findByPk(request.params.id);
+//     if (studio) {
+//       request.body.projectDetails.userId = request.user.dataValues.id;
+//       console.log("HOW MY REQUEST  BODY LOOOKS ", request.body);
+//       const newProject = { ...request.body };
+//       console.log("what is my new !!!!! project ", newProject.projectDetails);
+//       newProject.projectDetails.studioId = request.params.id;
+//       const project = await Project.create(newProject.projectDetails);
+//       await Promise.all(
+//         project.image.map(async image => {
+//           await Image.create({
+//             image: image,
+//             projectId: newProject.id
+//           });
+//         })
+//       );
+
+//       const newProjectWithImages = await Project.findByPk(newProject.id, {
+//         include: [Image]
+//       });
+//       response.send(newProjectWithImages);
+//     } else {
+//       return response.status(404).send("Page not Found");
+//     }
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+// router.post("/items", async (request, response, next) => {
+//   // console.log("create item ", request.body);
+//   try {
+//     const newItem = await Item.create(request.body);
+//     await Promise.all(
+//       request.body.imageUrls.map(async link => {
+//         await Image.create({
+//           imageUrl: link,
+//           itemId: newItem.id
+//         });
+//       })
+//     );
+//     const newItemWithImages = await Item.findByPk(newItem.id, {
+//       include: [Image]
+//     });
+//     response.send(newItemWithImages);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 router.patch("/project/:id", async function(request, response, next) {
   try {

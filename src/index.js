@@ -22,12 +22,12 @@ const userRoutes = require("../src/user/router");
 const studioRoutes = require("../src/studio/router");
 const projectRoutes = require("../src/project/router");
 const imageRoutes = require("../src/image/router");
-
+const workshopRoutes = require("../src/workshop/router");
 app.use(studioRoutes);
 app.use(userRoutes);
 app.use(projectRoutes);
 app.use(imageRoutes);
-
+app.use(workshopRoutes);
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
