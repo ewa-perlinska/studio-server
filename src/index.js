@@ -20,9 +20,13 @@ app.get("/ping", (request, response) => {
 
 const userRoutes = require("../src/user/router");
 const studioRoutes = require("../src/studio/router");
+const projectRoutes = require("../src/project/router");
+const imageRoutes = require("../src/image/router");
 
 app.use(studioRoutes);
 app.use(userRoutes);
+app.use(projectRoutes);
+app.use(imageRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
