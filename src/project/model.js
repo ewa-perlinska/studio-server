@@ -4,33 +4,17 @@ const Studio = require("../studio/model");
 
 const Project = db.define("project", {
   title: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notNull: { args: true, msg: "You must enter a title" }
-    }
+    type: Sequelize.STRING
   },
   year: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    validate: {
-      notNull: { args: true, msg: "You must enter a year" }
-    }
+    type: Sequelize.INTEGER
   },
   client: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notNull: { args: true, msg: "You must enter a client" }
-    }
+    type: Sequelize.STRING
   },
 
   location: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notNull: { args: true, msg: "You must enter a location" }
-    }
+    type: Sequelize.STRING
   },
   edition: {
     type: Sequelize.INTEGER
@@ -42,11 +26,7 @@ const Project = db.define("project", {
     type: Sequelize.STRING
   },
   descriptionOfProject: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notNull: { args: true, msg: "You must enter a description" }
-    }
+    type: Sequelize.STRING
   }
 });
 
