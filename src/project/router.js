@@ -25,43 +25,50 @@ router.get("/project/:id", async function(request, response, next) {
   }
 });
 
-// router.post("/studio/:id/project", auth, async function(
-//   request,
-//   response,
-//   next
-// ) {
-//   try {
-//     console.log("how my request looks?", request.user.dataValues.id);
-//     console.log("WHAT IS STUDIO ID ", request.params.id);
+router.post("/studio/:id/project", auth, async function(
+  request,
+  response,
+  next
+) {
+  try {
+    console.log("how my request looks?", request.user.dataValues.id);
+    console.log("WHAT IS STUDIO ID ", request.params.id);
 
-//     const studio = await Studio.findByPk(request.params.id);
-//     if (studio) {
-//       request.body.projectDetails.userId = request.user.dataValues.id;
-//       console.log("HOW MY REQUEST  BODY LOOOKS ", request.body);
-//       const newProject = { ...request.body };
-//       console.log("what is my new !!!!! project ", newProject.projectDetails);
-//       newProject.projectDetails.studioId = request.params.id;
-//       const project = await Project.create(newProject.projectDetails);
-//       await Promise.all(
-//         project.image.map(async image => {
-//           await Image.create({
-//             image: image,
-//             projectId: newProject.id
-//           });
-//         })
-//       );
+    const studio = await Studio.findByPk(request.params.id);
+    if (studio) {
+      request.body.projectDetails.userId = request.user.dataValues.id;
+      console.log("HOW MY REQUEST  BODY LOOOKS ", request.body.projectDetails);
+      const newProject = { ...request.body };
+      console.log("what is my new !!!!! project ", newProject.projectDetails);
+      newProject.projectDetails.studioId = request.params.id;
+      const project = await Project.create(newProject.projectDetails);
+      console.log(
+        "what is request.body.image????????",
+        newProject.projectDetails.image
+      );
+      const flatProject = newProject.projectDetails.image.flat();
+      console.log("what is flat project", flatProject);
 
-//       const newProjectWithImages = await Project.findByPk(newProject.id, {
-//         include: [Image]
-//       });
-//       response.send(newProjectWithImages);
-//     } else {
-//       return response.status(404).send("Page not Found");
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+      await Promise.all(
+        flatProject.map(async image => {
+          await Image.create({
+            image: image,
+            projectId: newProject.id
+          });
+        })
+      );
+
+      const newProjectWithImages = await Project.findByPk(newProject.id, {
+        include: [Image]
+      });
+      response.send(newProjectWithImages);
+    } else {
+      return response.status(404).send("Page not Found");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 // router.post("/items", async (request, response, next) => {
 //   // console.log("create item ", request.body);
