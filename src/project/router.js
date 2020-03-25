@@ -51,7 +51,7 @@ router.post("/studio/:id/project", auth, async function(
 
       await Promise.all(
         flatProject.map(async image => {
-          await Image.create({
+          return await Image.create({
             image: image,
             projectId: newProject.id
           });
@@ -69,27 +69,6 @@ router.post("/studio/:id/project", auth, async function(
     next(error);
   }
 });
-
-// router.post("/items", async (request, response, next) => {
-//   // console.log("create item ", request.body);
-//   try {
-//     const newItem = await Item.create(request.body);
-//     await Promise.all(
-//       request.body.imageUrls.map(async link => {
-//         await Image.create({
-//           imageUrl: link,
-//           itemId: newItem.id
-//         });
-//       })
-//     );
-//     const newItemWithImages = await Item.findByPk(newItem.id, {
-//       include: [Image]
-//     });
-//     response.send(newItemWithImages);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
 
 router.patch("/project/:id", async function(request, response, next) {
   try {
