@@ -1,13 +1,13 @@
 const { Router } = require("express");
 const auth = require("../auth/middleWare");
-const Exhibtion = require("./model");
+const Bookstore = require("./model");
 
 const router = new Router();
 
-router.get("/exhibtion", async function(request, response, next) {
+router.get("/bookstore", async function(request, response, next) {
   try {
-    const exhibtions = await Exhibtion.findAll();
-    response.send(exhibtions);
+    const bookstores = await Bookstore.findAll();
+    response.send(bookstores);
     console.log("done");
   } catch (error) {
     next(error);
@@ -24,45 +24,48 @@ router.get("/exhibtion", async function(request, response, next) {
 //   }
 // });
 
-router.post("/exhibtion", auth, async (request, response) => {
+router.post("/bookstore", auth, async (request, response) => {
   console.log("how my request looks?", request.user.dataValues.id);
-  console.log("whaaaaaaat is request.body.ex", request.body.exhibitionDetails);
+  console.log(
+    "whaaaaaaat is request.body.bookstores",
+    request.body.bookStoreDetails
+  );
   console.log("whaaaaaaat is request.body", request.body);
-  request.body.exhibitionDetails.userId = request.user.dataValues.id;
-  const newExhibtion = { ...request.body };
-  console.log("what is my new exhibition ", newExhibtion.exhibitionDetails);
+  request.body.bookStoreDetails.userId = request.user.dataValues.id;
+  const newBookstore = { ...request.body };
+  console.log("what is my new exhibition ", newBookstore.bookStoreDetails);
 
-  const exhibtion = await Exhibtion.create(newExhibtion.exhibitionDetails);
-  return response.status(201).send(exhibtion);
+  const bookstore = await Bookstore.create(newBookstore.bookStoreDetails);
+  return response.status(201).send(bookstore);
 });
 
-router.get("/exhibition/my", auth, async function(request, response, next) {
-  console.log("my exhibition / user id ", request.user.dataValues.id);
+router.get("/bookstore/my", auth, async function(request, response, next) {
+  console.log("my bookstore / user id ", request.user.dataValues.id);
   const userId = request.user.dataValues.id;
   try {
-    const exhibtions = await Exhibtion.findAll({
+    const bookstores = await Bookstore.findAll({
       where: {
-        exhibtion: exhibtion
+        bookstore: bookstore
       }
     });
-    response.send(exhibtions);
+    response.send(bookstores);
     console.log("done");
   } catch (error) {
     next(error);
   }
 });
 
-router.patch("/exhibition/:id", async function(request, response, next) {
+router.patch("/bookstore/:id", async function(request, response, next) {
   try {
     console.log("what is my request body ", request.body);
 
-    const exhibtion = await Exhibtion.findByPk(request.params.id);
-    if (exhibtion) {
-      const updatedExhibition = await Exhibition.update(
-        request.body.exhibtionDetails
+    const bookstore = await Bookstore.findByPk(request.params.id);
+    if (bookstore) {
+      const updatedBookstore = await Bookstore.update(
+        request.body.bookStoreDetails
       );
 
-      return response.send(updatedExhibition);
+      return response.send(updatedBookstore);
     } else {
       return response.status(404).send("Page not Found");
     }
