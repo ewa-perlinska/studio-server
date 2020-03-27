@@ -16,4 +16,4 @@ const Image = db.define("image", {
 Image.belongsTo(Project);
 Project.hasMany(Image);
 
-module.exports = Project;
+module.exports = Image;
