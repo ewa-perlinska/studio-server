@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const auth = require("../auth/middleWare");
-const Exhibition = require("./model");
+const Exhibtion = require("./model");
 
 const router = new Router();
 
@@ -26,13 +26,13 @@ router.get("/exhibtion/:id", async function(request, response, next) {
 
 router.post("/exhibtion", auth, async (request, response) => {
   console.log("how my request looks?", request.user.dataValues.id);
-  console.log("whaaaaaaat is request.body", request.body.exhibtionDetails);
-
-  request.body.exhibtionDetails.userId = request.user.dataValues.id;
+  console.log("whaaaaaaat is request.body.ex", request.body.exhibitionDetails);
+  console.log("whaaaaaaat is request.body", request.body);
+  request.body.exhibitionDetails.userId = request.user.dataValues.id;
   const newExhibtion = { ...request.body };
-  console.log("what is my new exhibition ", newExhibtion.exhibtionDetails);
+  console.log("what is my new exhibition ", newExhibtion.exhibitionDetails);
 
-  const exhibtion = await Exhibtion.create(newExhibtion.exhibtionDetails);
+  const exhibtion = await Exhibtion.create(newExhibtion.exhibitionDetails);
   return response.status(201).send(exhibtion);
 });
 

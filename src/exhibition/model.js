@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const db = require("../db");
 const User = require("../user/model");
 
-const Exhibition = db.define("exhibiton", {
+const Exhibtion = db.define("exhibiton", {
   title: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -72,7 +72,7 @@ const Exhibition = db.define("exhibiton", {
   }
 });
 
-Exhibition.belongsTo(User);
-User.hasMany(Exhibition);
+Exhibtion.belongsTo(User);
+User.hasMany(Exhibtion);
 
-module.exports = Exhibition;
+module.exports = Exhibtion;
