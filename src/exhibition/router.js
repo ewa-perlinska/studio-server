@@ -6,7 +6,7 @@ const router = new Router();
 
 router.get("/exhibtion", async function(request, response, next) {
   try {
-    const exhibtions = await Exhibition.findAll();
+    const exhibtions = await Exhibtion.findAll();
     response.send(exhibtions);
     console.log("done");
   } catch (error) {
@@ -14,15 +14,15 @@ router.get("/exhibtion", async function(request, response, next) {
   }
 });
 
-router.get("/exhibtion/:id", async function(request, response, next) {
-  try {
-    const exhibtion = await Exhibtion.findByPk(request.params.id);
-    response.send(exhibtion);
-    console.log("done");
-  } catch (error) {
-    next(error);
-  }
-});
+// router.get("/exhibtion/:id", async function(request, response, next) {
+//   try {
+//     const exhibtion = await Exhibtion.findByPk(request.params.id);
+//     response.send(exhibtion);
+//     console.log("done");
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 router.post("/exhibtion", auth, async (request, response) => {
   console.log("how my request looks?", request.user.dataValues.id);
@@ -40,7 +40,7 @@ router.get("/exhibition/my", auth, async function(request, response, next) {
   console.log("my exhibition / user id ", request.user.dataValues.id);
   const userId = request.user.dataValues.id;
   try {
-    const exhibtions = await Exhibition.findAll({
+    const exhibtions = await Exhibtion.findAll({
       where: {
         exhibtion: exhibtion
       }
@@ -56,7 +56,7 @@ router.patch("/exhibition/:id", async function(request, response, next) {
   try {
     console.log("what is my request body ", request.body);
 
-    const exhibtion = await Exhibition.findByPk(request.params.id);
+    const exhibtion = await Exhibtion.findByPk(request.params.id);
     if (exhibtion) {
       const updatedExhibition = await Exhibition.update(
         request.body.exhibtionDetails
