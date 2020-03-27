@@ -4,7 +4,6 @@ const Project = require("./model");
 const Studio = require("../studio/model");
 const Image = require("../image/model");
 const router = new Router();
-
 router.get("/project", async function(request, response, next) {
   try {
     const projects = await Project.findAll();
@@ -14,7 +13,6 @@ router.get("/project", async function(request, response, next) {
     next(error);
   }
 });
-
 router.get("/project/:id", async function(request, response, next) {
   try {
     const project = await Project.findByPk(request.params.id);
@@ -24,7 +22,6 @@ router.get("/project/:id", async function(request, response, next) {
     next(error);
   }
 });
-
 router.post("/studio/:id/project", auth, async function(
   request,
   response,
@@ -46,18 +43,16 @@ router.post("/studio/:id/project", auth, async function(
         "what is request.body.image????????",
         newProject.projectDetails.image
       );
-      const flatProject = newProject.projectDetails.image.flat();
-      console.log("what is flat project", flatProject);
-
+      const projectImages = newProject.projectDetails.image.flat();
+      console.log("what is flat project", projectImages);
       await Promise.all(
-        flatProject.map(async image => {
+        projectImages.map(async image => {
           return await Image.create({
             image: image,
             projectId: newProject.id
           });
         })
       );
-
       const newProjectWithImages = await Project.findByPk(newProject.id, {
         include: [Image]
       });
@@ -69,7 +64,6 @@ router.post("/studio/:id/project", auth, async function(
     next(error);
   }
 });
-
 router.patch("/project/:id", async function(request, response, next) {
   try {
     const project = await Project.findByPk(request.params.id);
@@ -82,8 +76,7 @@ router.patch("/project/:id", async function(request, response, next) {
     next(error);
   }
 });
-
-router.get("/myproject", auth, async function(request, response, next) {
+router.get("/project/my", auth, async function(request, response, next) {
   console.log("my studdiiooooooo / user id ", request.user.dataValues.id);
   const userId = request.user.dataValues.id;
   try {
@@ -98,12 +91,12 @@ router.get("/myproject", auth, async function(request, response, next) {
     next(error);
   }
 });
-
 router.patch("/project/:id", async function(request, response, next) {
   try {
     const project = await Project.findByPk(request.params.id);
     if (project) {
-      return response.send(await project.update(request.body));
+      const updatedProject = await project.update(request.body);
+      return response.send(updatedProject);
     } else {
       return response.status(404).send("Page not Found");
     }

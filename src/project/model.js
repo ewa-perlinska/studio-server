@@ -12,7 +12,6 @@ const Project = db.define("project", {
   client: {
     type: Sequelize.STRING
   },
-
   location: {
     type: Sequelize.STRING
   },
