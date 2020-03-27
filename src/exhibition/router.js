@@ -36,39 +36,39 @@ router.post("/exhibtion", auth, async (request, response) => {
   return response.status(201).send(exhibtion);
 });
 
-// router.get("/myworksop", auth, async function(request, response, next) {
-//   console.log("my workshop / user id ", request.user.dataValues.id);
-//   const userId = request.user.dataValues.id;
-//   try {
-//     const workshops = await Workshop.findAll({
-//       where: {
-//         workshop: workshop
-//       }
-//     });
-//     response.send(workshops);
-//     console.log("done");
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+router.get("/exhibition/my", auth, async function(request, response, next) {
+  console.log("my exhibition / user id ", request.user.dataValues.id);
+  const userId = request.user.dataValues.id;
+  try {
+    const exhibtions = await Exhibition.findAll({
+      where: {
+        exhibtion: exhibtion
+      }
+    });
+    response.send(exhibtions);
+    console.log("done");
+  } catch (error) {
+    next(error);
+  }
+});
 
-// router.patch("/workshop/:id", async function(request, response, next) {
-//   try {
-//     console.log("what is my request body ", request.body);
+router.patch("/exhibition/:id", async function(request, response, next) {
+  try {
+    console.log("what is my request body ", request.body);
 
-//     const workshop = await Workshop.findByPk(request.params.id);
-//     if (workshop) {
-//       const updatedWorkshop = await Workshop.update(
-//         request.body.workshopDetails
-//       );
+    const exhibtion = await Exhibition.findByPk(request.params.id);
+    if (exhibtion) {
+      const updatedExhibition = await Exhibition.update(
+        request.body.exhibtionDetails
+      );
 
-//       return response.send(updatedWorkshop);
-//     } else {
-//       return response.status(404).send("Page not Found");
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+      return response.send(updatedExhibition);
+    } else {
+      return response.status(404).send("Page not Found");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
-// module.exports = router;
+module.exports = router;
